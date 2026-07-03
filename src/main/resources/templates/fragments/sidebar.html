@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div
+        th:fragment="sidebar"
+        class="bg-light border-end vh-100 p-3">
+
+    <div class="list-group">
+
+        <a
+                class="list-group-item"
+                th:href="@{/}">
+
+            Dashboard
+
+        </a>
+
+        <a
+                class="list-group-item"
+                th:href="@{/lessons}">
+
+            Lições
+
+        </a>
+
+        <a
+                class="list-group-item"
+                th:href="@{/words}">
+
+            Palavras
+
+        </a>
+
+        <a
+                class="list-group-item"
+                th:href="@{/reviews}">
+
+            Revisões
+
+        </a>
+
+        <a
+                class="list-group-item"
+                th:href="@{/reports}">
+
+            Relatórios
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
