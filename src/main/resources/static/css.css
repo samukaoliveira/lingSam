@@ -22,3 +22,28 @@ body{
     border-radius:12px;
 
 }
+
+
+.word{
+
+    cursor:pointer;
+
+    padding:4px;
+
+    margin:2px;
+
+    display:inline-block;
+
+    border-radius:6px;
+
+    transition:.2s;
+
+}
+
+.word:hover{
+
+    background:#0d6efd;
+
+    color:white;
+
+}
