@@ -1,7 +1,12 @@
 package com.samukaoliveira.lingSam.services;
 
+import com.samukaoliveira.lingSam.models.Palavra;
 import com.samukaoliveira.lingSam.models.PalavraUsuario;
+import com.samukaoliveira.lingSam.models.StatusPalavra;
+import com.samukaoliveira.lingSam.models.Usuario;
+import com.samukaoliveira.lingSam.repositories.PalavraRepository;
 import com.samukaoliveira.lingSam.repositories.PalavraUsuarioRepository;
+import com.samukaoliveira.lingSam.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,8 @@ import java.util.List;
 public class PalavraUsuarioService {
 
     private final PalavraUsuarioRepository repository;
+    private final PalavraRepository palavraRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public List<PalavraUsuario> listar() {
         return repository.findAll();
@@ -39,6 +46,28 @@ public class PalavraUsuarioService {
         existente.setUltimaVisualizacao(palavraUsuario.getUltimaVisualizacao());
 
         return repository.save(existente);
+    }
+
+    public void atualizarStatus(String username,
+                                String lemma,
+                                StatusPalavra status){
+
+        Usuario usuario = usuarioRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        Palavra palavra = palavraRepository
+                .findByLemma(lemma)
+                .orElseThrow(() -> new EntityNotFoundException("Palavra não encontrada"));
+
+        PalavraUsuario palavraUsuario = repository
+                .findByUsuarioAndPalavra(usuario, palavra)
+                .orElseThrow(() -> new EntityNotFoundException("Palavra do usuário não encontrada"));
+
+        palavraUsuario.setStatus(status);
+
+        repository.save(palavraUsuario);
+
     }
 
     public void excluir(Long id) {

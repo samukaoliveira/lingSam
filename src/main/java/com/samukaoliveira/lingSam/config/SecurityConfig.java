@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.lang.reflect.Method;
+
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -58,6 +60,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/palavras/status").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -67,7 +70,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
-                );
+                ).csrf(csrf -> csrf.disable());;
 
         return http.build();
     }
