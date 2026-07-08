@@ -20,17 +20,27 @@ body{
 .card{
 
     border-radius:12px;
+    font-size: 0;
 
 }
 
+.card span {
+    font-size: 16px;
+}
+
+.card-span-espaco {
+    padding:4px;
+
+    margin:2px;
+}
 
 .word{
 
     cursor:pointer;
 
-    padding:4px;
+    padding:0px;
 
-    margin:2px;
+    margin:1px;
 
     display:inline-block;
 
@@ -45,5 +55,35 @@ body{
     background:#0d6efd;
 
     color:white;
+
+}
+
+.dominada{
+
+    color: #494848;
+
+}
+
+.familiar{
+
+    color:#0d6efd;
+
+    font-weight:bold;
+
+}
+
+.nova{
+
+    color:#fd7e14;
+
+    font-weight:bold;
+
+}
+
+.aprendendo{
+
+    color:#198754;
+
+    font-weight:bold;
 
 }

@@ -19,4 +19,11 @@ public class UsuarioService {
 
     }
 
+    public Usuario obterUsuarioPadrao() {
+
+        return repository.findByUsername("admin")
+                .orElseThrow(() ->
+                        new IllegalStateException("Usuário admin não encontrado."));
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.samukaoliveira.lingSam.controllers;
 
 import com.samukaoliveira.lingSam.models.Licao;
+import com.samukaoliveira.lingSam.services.LeitorLicaoService;
 import com.samukaoliveira.lingSam.services.LicaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class LicaoController {
 
     private final LicaoService service;
+
+    private final LeitorLicaoService leitorLicaoService;
 
     @GetMapping
     public String listar(Model model){
@@ -68,8 +71,13 @@ public class LicaoController {
 
         model.addAttribute("licao", licao);
 
-        model.addAttribute("palavras",
-                licao.getTextoOriginal().split("\\s+"));
+//        model.addAttribute("palavras",
+//                licao.getTextoOriginal().split("\\s+"));
+
+        model.addAttribute(
+                "palavras",
+                leitorLicaoService.montarTexto(licao)
+        );
 
         return "licoes/view";
     }

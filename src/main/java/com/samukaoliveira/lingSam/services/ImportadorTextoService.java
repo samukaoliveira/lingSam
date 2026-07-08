@@ -1,11 +1,14 @@
 package com.samukaoliveira.lingSam.services;
 
+import com.samukaoliveira.lingSam.dto.PalavraViewDTO;
 import com.samukaoliveira.lingSam.models.*;
 import com.samukaoliveira.lingSam.repositories.PalavraRepository;
 import com.samukaoliveira.lingSam.repositories.PalavraUsuarioRepository;
 import com.samukaoliveira.lingSam.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,22 +22,28 @@ public class ImportadorTextoService {
 
     private final PalavraUsuarioRepository palavraUsuarioRepository;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
     public void processar(Licao licao) {
 
-        Usuario usuario = obterUsuarioPadrao();
+        Usuario usuario = usuarioService.obterUsuarioPadrao();
 
-        var palavras = parser.extrairPalavras(licao.getTextoOriginal());
+        List<PalavraViewDTO> tokens =
+                parser.extrairPalavras(licao.getTextoOriginal());
 
-        var mapa = contador.contar(palavras);
+        for (PalavraViewDTO token : tokens) {
 
-        for (String palavra : mapa.keySet()) {
+            if(token.getTipo() != TipoToken.PALAVRA){
+                continue;
+            }
 
-            Palavra entidade = salvarPalavraSeNaoExistir(
-                    normalizar(palavra));
+            Palavra palavra =
+                    salvarPalavraSeNaoExistir(
+                            normalizar(token.getTexto()));
 
-            salvarPalavraUsuarioSeNaoExistir(usuario, entidade);
+            salvarPalavraUsuarioSeNaoExistir(
+                    usuario,
+                    palavra);
 
         }
 
@@ -96,13 +105,6 @@ public class ImportadorTextoService {
                 .trim()
                 .toLowerCase();
 
-    }
-
-    private Usuario obterUsuarioPadrao() {
-
-        return usuarioRepository.findByUsername("admin")
-                .orElseThrow(() ->
-                        new IllegalStateException("Usuário admin não encontrado."));
     }
 
 }
