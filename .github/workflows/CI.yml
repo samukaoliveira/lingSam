@@ -65,7 +65,7 @@ jobs:
       # 8️⃣ Build
       - name: Build Docker image
         run: |
-          IMAGE_NAME="samukaoliveira/lingSam"
+          IMAGE_NAME="samukaoliveira/lingsam"
           TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
 
           docker build -t $IMAGE_NAME:$TAG .
@@ -73,7 +73,7 @@ jobs:
       # 9️⃣ Push
       - name: Push Docker image
         run: |
-          IMAGE_NAME="samukaoliveira/lingSam"
+          IMAGE_NAME="samukaoliveira/lingsam"
           TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "latest")
 
           docker push $IMAGE_NAME:$TAG
