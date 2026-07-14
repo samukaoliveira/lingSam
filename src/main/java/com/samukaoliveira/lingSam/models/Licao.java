@@ -18,7 +18,7 @@ public class Licao {
     @Enumerated(EnumType.STRING)
     private NivelDificuldade dificuldade;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String textoOriginal;
 
     private LocalDateTime dataImportacao;
