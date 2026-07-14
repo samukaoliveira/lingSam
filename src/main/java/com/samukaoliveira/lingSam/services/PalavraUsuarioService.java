@@ -1,5 +1,6 @@
 package com.samukaoliveira.lingSam.services;
 
+import com.samukaoliveira.lingSam.dto.PalavraStatusDTO;
 import com.samukaoliveira.lingSam.models.Palavra;
 import com.samukaoliveira.lingSam.models.PalavraUsuario;
 import com.samukaoliveira.lingSam.models.StatusPalavra;
@@ -18,8 +19,10 @@ import java.util.List;
 public class PalavraUsuarioService {
 
     private final PalavraUsuarioRepository repository;
-    private final PalavraRepository palavraRepository;
+    private final PalavraService palavraService;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
+    private final ImportadorTextoService importadorTextoService;
 
     public List<PalavraUsuario> listar() {
         return repository.findAll();
@@ -52,12 +55,10 @@ public class PalavraUsuarioService {
                                 String lemma,
                                 StatusPalavra status){
 
-        Usuario usuario = usuarioRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+        Usuario usuario = usuarioService.obterUsuarioPadrao();
 
-        Palavra palavra = palavraRepository
-                .findByLemma(lemma)
+        Palavra palavra = palavraService
+                .findByLemma(lemma.toLowerCase())
                 .orElseThrow(() -> new EntityNotFoundException("Palavra não encontrada"));
 
         PalavraUsuario palavraUsuario = repository
@@ -72,6 +73,28 @@ public class PalavraUsuarioService {
 
     public void excluir(Long id) {
         repository.delete(buscarPorId(id));
+    }
+
+    public PalavraStatusDTO buscarStatus(String texto){
+
+        Usuario usuario = usuarioService.obterUsuarioPadrao();
+
+        String lemma = importadorTextoService.normalizar(texto);
+
+        Palavra palavra = palavraService
+                .findByLemma(lemma)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Palavra não encontrada"));
+
+        PalavraUsuario palavraUsuario = repository
+                .findByUsuarioAndPalavra(usuario, palavra)
+                .orElseThrow(() -> new EntityNotFoundException("Palavra do usuário não encontrada"));
+
+        return new PalavraStatusDTO(
+                palavraUsuario.getPalavra().toString(),
+                palavraUsuario.getStatus()
+        );
+
     }
 
 }

@@ -16,63 +16,101 @@
 
 <body>
 
-<div class="container mt-4">
+<div th:replace="fragments/navbar :: navbar"></div>
 
-  <div class="d-flex justify-content-between">
+<div class="container-fluid">
 
-    <div>
+  <div class="row">
 
-      <h2 th:text="${licao.titulo}"></h2>
+    <div class="col-md-2">
 
-      <span class="badge bg-primary"
-            th:text="${licao.dificuldade}">
-            </span>
+      <div th:replace="fragments/sidebar :: sidebar"></div>
 
     </div>
 
-    <a class="btn btn-secondary"
-       th:href="@{/licoes}">
-      Voltar
-    </a>
+    <div class="col-md-10">
 
-  </div>
+      <div class="container mt-4">
 
-  <hr>
+        <div class="d-flex justify-content-between align-items-start">
 
-  <div class="card shadow-sm">
+          <div>
 
-    <div class="card-body">
+            <h2 th:text="${licao.titulo}"></h2>
 
-      <th:block th:each="token : ${palavras}">
+            <span class="badge bg-primary"
+                  th:text="${licao.dificuldade}">
+                        </span>
 
-        <!-- Palavra -->
-        <span
-                th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).PALAVRA}"
-                class="word"
-                th:classappend="${token.status != null ? ' ' + #strings.toLowerCase(token.status.name()) : ''}"
-                th:text="${token.texto}"
-                th:attr="data-id=${token.id},data-word=${token.texto}"
-                data-bs-toggle="modal"
-                data-bs-target="#wordModal">
-        </span>
+          </div>
 
-        <!-- Pontuação -->
-        <span
-                th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).PONTUACAO}"
-                th:text="${token.texto}">
-        </span>
+          <a class="btn btn-secondary"
+             th:href="@{/licoes}">
+            Voltar
+          </a>
 
-        <!-- Espaço -->
-        <th:block
-                th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).ESPACO}">
-          <span class="card-span-espaco">&#32;</span>
-        </th:block>
+        </div>
 
-        <!-- Quebra de linha -->
-        <br
-                th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).QUEBRA_LINHA}"/>
+        <hr>
 
-      </th:block>
+        <div class="card shadow-sm">
+
+          <div class="card-body">
+
+            <th:block th:each="token : ${palavras}">
+
+              <!-- Palavra -->
+
+              <span
+                      th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).PALAVRA}"
+
+                      class="word"
+
+                      th:classappend="${token.status != null ? ' ' + #strings.toLowerCase(token.status.name()) : ''}"
+
+                      th:text="${token.texto}"
+
+                      th:attr="
+                                        data-id=${token.id},
+                                        data-word=${token.texto}"
+
+                      data-bs-toggle="modal"
+                      data-bs-target="#wordModal">
+
+                            </span>
+
+              <!-- Pontuação -->
+
+              <span
+                      th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).PONTUACAO}"
+
+                      th:text="${token.texto}">
+
+                            </span>
+
+              <!-- Espaço -->
+
+              <span
+                      th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).ESPACO}"
+
+                      class="card-span-espaco">
+
+                                &#32;
+
+                            </span>
+
+              <!-- Quebra de linha -->
+
+              <br
+                      th:if="${token.tipo == T(com.samukaoliveira.lingSam.models.TipoToken).QUEBRA_LINHA}"/>
+
+            </th:block>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -165,7 +203,8 @@
 
       <div class="modal-footer">
 
-        <button id="btnSalvar"
+        <button
+                id="btnSalvar"
                 class="btn btn-success">
 
           Salvar

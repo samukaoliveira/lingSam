@@ -99,7 +99,7 @@ public class ImportadorTextoService {
 
     }
 
-    private String normalizar(String palavra) {
+    public String normalizar(String palavra) {
 
         return palavra
                 .trim()

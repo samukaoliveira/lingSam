@@ -5,10 +5,7 @@ import com.samukaoliveira.lingSam.services.PalavraUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/palavras")
@@ -28,6 +25,14 @@ public class PalavraController {
                 dto.getStatus());
 
         return ResponseEntity.ok().build();
+
+    }
+
+    @GetMapping("/status")
+    @ResponseBody
+    public PalavraStatusDTO buscarStatus(@RequestParam String palavra){
+
+        return service.buscarStatus(palavra);
 
     }
 

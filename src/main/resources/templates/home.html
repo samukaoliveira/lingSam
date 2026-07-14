@@ -114,6 +114,70 @@
 
                 </div>
 
+                <!-- Lições Recentes -->
+                <div class="card mt-4">
+
+                    <div class="card-header">
+
+                        Últimas lições
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4"
+                                 th:each="licao : ${licoesRecentes}">
+
+                                <div class="card h-100 shadow-sm">
+
+                                    <div class="card-body">
+
+                        <span class="badge bg-primary mb-2"
+                              th:text="${licao.dificuldade}">
+                        </span>
+
+                                        <h5 class="card-title"
+                                            th:text="${licao.titulo}">
+                                        </h5>
+
+                                    </div>
+
+                                    <div class="card-footer bg-white border-0">
+
+                                        <a class="btn btn-success w-100"
+                                           th:href="@{'/licoes/' + ${licao.id}}">
+
+                                            Continuar leitura
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div
+                                    class="col-12"
+
+                                    th:if="${#lists.isEmpty(licoesRecentes)}">
+
+                                <div class="alert alert-secondary mb-0">
+
+                                    Nenhuma lição cadastrada.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>

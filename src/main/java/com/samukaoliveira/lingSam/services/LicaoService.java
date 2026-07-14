@@ -5,6 +5,7 @@ import com.samukaoliveira.lingSam.repositories.LicaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +51,13 @@ public class LicaoService {
 
     public void excluir(Long id) {
         repository.delete(buscarPorId(id));
+    }
+
+    public List<Licao> listarRecentes(int quantidade){
+
+        return repository.findAllByOrderByIdDesc(
+                PageRequest.of(0, quantidade));
+
     }
 
 }
