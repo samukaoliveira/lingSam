@@ -34,7 +34,7 @@ jobs:
       # 4️⃣ Build + testes + coverage
       - name: Run tests with coverage
         run: |
-          run: mvn clean verify
+          mvn clean verify
 
       # DEBUG opcional
       - name: Debug target files
